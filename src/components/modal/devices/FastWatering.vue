@@ -1,10 +1,10 @@
 <template>
   <div>
-  <!-- <alert 
-    :message ="alarmStore.status.message"
+  <alert 
+    :message ="fastWateringStore.setFastWateringStatus.message"
     :modalActive="modalActive"
-    :isError="alarmStore.status.isError"
-     @close="closeNotification" /> -->
+    :isError="fastWateringStore.setFastWateringStatus.isError"
+     @close="closeNotification" />
      <transition name="fade">
        <div class="modal" v-show="isOpen" >
         <transition name="drop-in">
@@ -58,7 +58,6 @@ import { storeToRefs } from 'pinia'
   const devicesStore = useDevicesStore()
 
 
-
   const fastWateringCommand = ref({
     isFastWatering : false
   })
@@ -73,14 +72,15 @@ import { storeToRefs } from 'pinia'
         break;
     }
     await fastWateringStore.setFastWatering(code, fastWateringCommand.value)
-    devicesStore.loadDevices()
+    await devicesStore.loadDevices()
+    emits('updated')
     modalActive.value = true
     setTimeout(closeNotification, 3000)
   }
 
   //open close modal
   const modalActive = ref(false)
-  const emits = defineEmits(['close'])
+  const emits = defineEmits(['close','updated'])
   const form = ref(null)
   const target = ref(null)
   const closeNotification = () => {

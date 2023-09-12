@@ -9,7 +9,8 @@
   <FastWatering 
     :isOpen="isShowFastWateringModal" 
     @close="toggleFastWateringModal" 
-    :title="$t('fastWatering')" 
+    :title="$t('fastWatering')"
+    @updated="getFastWatering" 
     />
   <NewDevice 
     :isOpen="isShowAddModal" 
@@ -69,16 +70,21 @@
     device_code: null
   })
 
-  onMounted(async() => {
+  async function getFastWatering() {
     fastWateringStore.fastWateringList = []
-    await deviceManagementStore.superAdminDevices()
     deviceManagementStore.supAdmindevices.map(async(data) => {
       fastWateringParams.value.device_code = data.code
       await fastWateringStore.getFastWatering(fastWateringParams.value)
       fastWateringStore.fastWatering.device_name = data.name
       fastWateringStore.fastWateringList.push(fastWateringStore.fastWatering)
     })
+  }
+
+  onMounted(async() => {
+    await deviceManagementStore.superAdminDevices()
+    getFastWatering()
   })
+
   //asynchronus component
   const deviceCard = defineAsyncComponent(
     () => import('@/components/cards/deviceCard.vue'),
@@ -123,13 +129,13 @@
     router.push({ name: 'AddDevice'})
   }
 
-  let isLoading = false
+  const isLoading = ref(false)
 
   //fetch data
   onBeforeMount( async () => {
-    isLoading = true
+    isLoading.value = true
     await devicesStore.loadDevices()
-    isLoading = false 
+    isLoading.value = false 
   })
 
 </script>

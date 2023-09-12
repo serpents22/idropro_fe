@@ -10,6 +10,12 @@ export const useFastWateringStore = defineStore('fastWatering', {
     status: ref({
       message: null,
       code: null,
+      isError: null,
+    }),
+    setFastWateringStatus: ref({
+      message: null,
+      code: null,
+      isError: null,
     }),
     isLoading: ref(false)
   }),
@@ -21,7 +27,7 @@ export const useFastWateringStore = defineStore('fastWatering', {
         console.log(res)
         this.fastWatering = res.data.data
         this.isLoading = false
-        this.status.message = 'List Fetched'
+        // this.status.message = 'List Fetched'
         this.status.code = res.data.status
       } catch (err) {
         console.error(err)
@@ -37,13 +43,15 @@ export const useFastWateringStore = defineStore('fastWatering', {
         const res = await dataAPI.postFastWatering(deviceCode, data)
         console.log(res)
         this.isLoading = false
-        this.status.message = 'Fast Watering Update Success'
-        this.status.code = res.data.status
+        this.setFastWateringStatus.message = 'Fast Watering Update Success'
+        this.setFastWateringStatus.isError = false
+        this.setFastWateringStatus.code = res.data.status
       } catch (err) {
         console.error(err)
         this.isLoading = false
-        this.status.message = 'Fast Watering Update Failed'
-        this.status.code = err.response.data.status
+        this.setFastWateringStatus.message = 'Fast Watering Update Failed'
+        this.setFastWateringStatus.code = err.response.data.status
+        this.setFastWateringStatus.isError = true
         return err
       }
     }
