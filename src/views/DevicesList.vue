@@ -94,7 +94,7 @@
   )
   //init store
   const devicesStore = useDevicesStore()
-  const { devicesList, isLoading } = storeToRefs(useDevicesStore())
+  const { devicesList } = storeToRefs(useDevicesStore())
   const username = localStorage.getItem('auth.user')
   //function
   const isShowAddModal = ref(false)
@@ -123,10 +123,13 @@
     router.push({ name: 'AddDevice'})
   }
 
+  let isLoading = false
 
   //fetch data
   onBeforeMount( async () => {
+    isLoading = true
     await devicesStore.loadDevices()
+    isLoading = false 
   })
 
 </script>

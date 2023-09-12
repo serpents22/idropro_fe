@@ -24,4 +24,8 @@ export default {
     return apiClient.post(`device/control/${device_code}`,data)
   },
 
+  postFastWatering(device_code,data) {
+    return apiClient.post(`device/fast-watering/${device_code}`,data)
+  },
+
 }

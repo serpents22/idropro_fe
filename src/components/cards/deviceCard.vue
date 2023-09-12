@@ -6,14 +6,15 @@
           :class="{'clickable' : clickable, 'small' : small, 'medium':medium}" 
           @click="$emit('clicked', impianto.id)">
           <span class="title">
+            {{ impianto.name }}
           </span>
           <div class="grid grid-cols-3 justify-end items-end w-full">
             <div class="w-full flex justify-start">
-              <img :class="{'opacity-0' : !impianto.alarm}" class="warning-icon" src="@/assets/fast_watering.png" id="fastWateringLogo">
+              <img :class="{'opacity-0' : !impianto.is_fast_watering}" class="warning-icon" src="@/assets/fast_watering.png" id="fastWateringLogo">
             </div>
             <img class="images" src="@/assets/device.png" id="logo">
             <div class="w-full flex justify-end">
-              <img :class="{'opacity-0' : !impianto.alarm}" class="warning-icon" src="@/assets//icon/warning-icon.png" id="logo">
+              <img :class="{'opacity-0' : !impianto.is_alarm}" class="warning-icon" src="@/assets//icon/warning-icon.png" id="logo">
             </div>
           </div>
           <div class="flex flex-col">

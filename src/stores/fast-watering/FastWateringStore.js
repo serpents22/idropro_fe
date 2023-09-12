@@ -34,7 +34,7 @@ export const useFastWateringStore = defineStore('fastWatering', {
     async setFastWatering(deviceCode, data) {
       this.isLoading = true
       try {
-        const res = await dataAPI.postControl(deviceCode, data)
+        const res = await dataAPI.postFastWatering(deviceCode, data)
         console.log(res)
         this.isLoading = false
         this.status.message = 'Fast Watering Update Success'

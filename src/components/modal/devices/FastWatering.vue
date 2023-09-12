@@ -44,7 +44,7 @@
 import BaseButton from '@/components/button/BaseButton.vue'
 import { ref, onMounted, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { useDeviceManagement } from '@/stores/DeviceManagementStore'
+import { useDevicesStore } from '@/stores/DevicesStore'
 import { useFastWateringStore } from '@/stores/fast-watering/FastWateringStore'
 import { storeToRefs } from 'pinia'
   const props = defineProps({
@@ -55,26 +55,25 @@ import { storeToRefs } from 'pinia'
 
   const fastWateringStore = useFastWateringStore()
   const { fastWateringList } = storeToRefs(useFastWateringStore())
+  const devicesStore = useDevicesStore()
 
 
 
   const fastWateringCommand = ref({
-    command : "SATSTAT",
-    payload : {
-      S988: 0
-    }
+    isFastWatering : false
   })
 
   async function onToggle(code,state) {
     switch (state) {
       case true:
-        fastWateringCommand.value.payload.S988 = 1
+        fastWateringCommand.value.isFastWatering = true
         break;
       case false:
-        fastWateringCommand.value.payload.S988 = 0
+        fastWateringCommand.value.isFastWatering = false
         break;
     }
     await fastWateringStore.setFastWatering(code, fastWateringCommand.value)
+    devicesStore.loadDevices()
     modalActive.value = true
     setTimeout(closeNotification, 3000)
   }
