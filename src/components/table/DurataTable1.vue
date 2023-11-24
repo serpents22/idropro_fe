@@ -450,6 +450,11 @@ const { t } = useI18n();
       } 
       evIndex += 6
     }
+
+    var TmpEvGroups = [];
+    TmpEvGroups = Array.from(new Map(evGroups.map(item => [item['group'], item])).values());
+    evGroups = TmpEvGroups;
+
   }
 
   function groupingTableData() { 
@@ -746,7 +751,7 @@ const { t } = useI18n();
 
     for(step = 0; step < programSteps; step++){
       orderRegister='S' + (base_reg + Number( 200 + step));
-      let stationId = dataStore.evStation[orderRegister].split(',')[0];
+      let stationId = dataStore.evStation[orderRegister]?.split(',')[0];
       
       if(stationId > 0){
         var flowMode=getFlowValueByStep(step);
