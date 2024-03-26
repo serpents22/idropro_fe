@@ -274,6 +274,6 @@ export const useDataStore = defineStore('data', () => {
     satStarts, satStartsIsLoading, getLastSatStarts, satStartsLength,
     pumpConfig, pumpConfigIsLoading, getLastPumpConfig, pumpConfigLength,
     mvConfig, mvConfigIsLoading, getLastMvConfig, mvConfigLength,gropointStatIsLoading, gropointStatLength,
-    historicalData, historicalDataIsLoading, historicalDataLength, getHistoricalData, getLastGroupData, groupData, groupDataIsLoading
+    historicalData, historicalDataIsLoading, historicalDataLength, getHistoricalData, getLastGroupData, groupData, groupDataIsLoading, groupDataLength
   }
 })
