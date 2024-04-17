@@ -262,6 +262,7 @@
     "changeIdrosatCoordinate":"Cambia le coordinate Idrosat",
     "fastWatering":"Irrigazione Veloce",
     "plant":"Impianto",
+    "choiceOfTimeMode": "Scelta modalità tempo",
     "state":"State"
     
 }

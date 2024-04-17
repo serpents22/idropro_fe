@@ -85,7 +85,7 @@
               </tr>
               <tr>
                 <td>
-                  <label></label>
+                  <label>{{$t('choiceOfTimeMode')}}</label>
                 </td>
                 <td>
                   <span class="flex flex-col gap-1">
@@ -185,7 +185,7 @@
                       </div>
                     </div>
                     <div class="week-container">
-                      <label>{{ $t('firstWeek') }}</label>
+                      <label>{{ $t('secondWeek') }}</label>
                       <div name="days-container" v-for="giorno in 7" :key="giorno">
                         <input type="checkbox" :disabled="programData.pauseWeekMode != 0"
                           @change="setIrrigationDay($event, (giorno + 7) - 1)"
