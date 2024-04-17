@@ -83,7 +83,7 @@ export const useDevicesStore = defineStore('impianto', () => {
       const res = await devicesApi.getDevice(id)
       deviceData.value = res.data.data.device
       const params = ref({
-        fields: 'M50,M80,M81,M33',
+        fields: 'M33',
         measurement: 'METEOSTAT',
         device_code: deviceData.value.code
       })
@@ -114,9 +114,6 @@ export const useDevicesStore = defineStore('impianto', () => {
       deviceData.value.contatore = dataStore.satStat === undefined ? '-' : dataStore.satStat.S4
       deviceData.value.portarta = dataStore.satStat === undefined ? '-' : dataStore.satStat.S4
       deviceData.value.pressione = dataStore.satStat === undefined ? '-' : dataStore.meteoStat.M33
-      deviceData.value.macAddress = dataStore.meteoStat === undefined ? '-' : dataStore.meteoStat.M50
-      deviceData.value.firmwareVersion = dataStore.meteoStat === undefined ? '-' : dataStore.meteoStat.M80
-      deviceData.value.hardwareVersion = dataStore.meteoStat === undefined ? '-' : dataStore.meteoStat.M81
       isLoading.value = false
   } catch (err) {
       console.error(err)

@@ -37,7 +37,15 @@
           <label for="nome">{{ $t('fwVersion') }}</label>
         </span>
         <span class="w-full bg-white text-center px-5 py-3 text-xl">
-          <label for="nome">{{devicesStore.deviceData.firmwareVersion}}</label>
+          <label for="nome">{{devicesStore.deviceData.fw_idrosat}}</label>
+        </span>
+      </div>
+      <div class="field-wrapper">
+        <span class="w-full bg-[#00B0F0] text-white px-5 py-3 text-xl">
+          <label for="nome">{{ $t('espVersion') }}</label>
+        </span>
+        <span class="w-full bg-white text-center px-5 py-3 text-xl">
+          <label for="nome">{{devicesStore.deviceData.fw_esp32}}</label>
         </span>
       </div>
       <div class="field-wrapper">
@@ -45,7 +53,7 @@
           <label for="nome">{{ $t('hardwareVersion') }}</label>
         </span>
         <span class="w-full bg-white text-center px-5 py-3 text-xl">
-          <label for="nome">{{devicesStore.deviceData.hardwareVersion}}</label>
+          <label for="nome">{{devicesStore.deviceData.hw_version}}</label>
         </span>
       </div>
       <div class="field-wrapper">
@@ -53,7 +61,7 @@
           <label for="nome">MAC Address</label>
         </span>
         <span class="w-full bg-white text-center px-5 py-3 text-xl">
-          <label for="nome">{{devicesStore.deviceData.macAddress}}</label>
+          <label for="nome">{{devicesStore.deviceData.mac_address}}</label>
         </span>
       </div>
       <div class="field-wrapper">
