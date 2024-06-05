@@ -1,23 +1,30 @@
 <template>
   <div class="home-container">
     <div class="header">
-      <img src="@/assets/logo.png" id="logo">
+      <div class="logo-container"></div>
       <span>
         <h1>{{$t('welcomeText')}}</h1>
       </span>
     </div>
-    <router-link class="menu" :to="{name: 'LoginForm'}">
-      <img src="../assets/Accedi.png">
+    <router-link class="menu bg-login-icon" :to="{name: 'LoginForm'}">
+      <div class="menu-image"></div>
       <p>{{$t('login')}}</p>
     </router-link>
       <footer class="grid grid-cols-1 sm:grid-cols-4 items-center justify-center mb-2">
         <div class="w-fit m-auto sm:ml-10">
           <Tab :tabs="tabs" @clicked= "chageLanguage" />
         </div>
-        <h2 class="col-span-2 text-[8px] sm:text-base">Pratoverde srl - Via San Pelagio, 2 - 35020 Due Carrare (PD) - Italy - © Idrobit srl 2023</h2>
-        <div class="w-2 h-2">
-
+        <div class="col-span-2">
+          <h2 class="text-[8px] sm:text-base">Idrobit srl - Via Giuseppe Garibaldi, 85, 00012 Villanova di Guidonia - © Idrobit srl 2023</h2>
+          <div class="flex gap-4 justify-center items-center">
+            <h2 class="text-[8px] sm:text-base">Design By</h2>
+            <div class="flex gap-2 items-center">
+              <div class="logo-101"></div>
+              <h2 class="text-[8px] sm:text-base font-semibold">101 Team</h2>
+            </div>
+          </div>
         </div>
+        <a :href="privacyPolicy" target="_blank" class="col-span-1 text-[8px] sm:text-base">Privacy Policy</a>
       </footer>
   </div>
 
@@ -35,6 +42,7 @@ export default {
     Tab
   },
   setup() {
+    const privacyPolicy = process.env.VUE_APP_API_URL + 'resources/privacy-policy.pdf'
     const localeStore = useLocaleStore()
     const route = useRoute();
     const router = useRouter();
@@ -57,7 +65,7 @@ export default {
       })
 
       return {
-        tabs,route, router, localeStore
+        tabs,route, router, localeStore, privacyPolicy
       }
   },
   methods: {
@@ -115,9 +123,5 @@ span h2 {
 .menu img {
   @apply w-64
 }
-/* 
-.tab-wrapper{
-  @apply
-    absolute left-[80px] bottom-[20px] w-fit z-10
-} */
+
 </style>

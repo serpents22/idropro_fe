@@ -79,12 +79,10 @@
       fastWateringStore.fastWateringList.push(fastWateringStore.fastWatering)
     })
   }
-
   onMounted(async() => {
     await deviceManagementStore.superAdminDevices()
     getFastWatering()
   })
-
   //asynchronus component
   const deviceCard = defineAsyncComponent(
     () => import('@/components/cards/deviceCard.vue'),
@@ -100,14 +98,14 @@
   )
   //init store
   const devicesStore = useDevicesStore()
-  const { devicesList } = storeToRefs(useDevicesStore())
+  const { devicesList, isLoading } = storeToRefs(useDevicesStore())
   const username = localStorage.getItem('auth.user')
   //function
   const isShowAddModal = ref(false)
   const isShowDelModal = ref(false)
   const isShowEditModal = ref(false)
   const isShowFastWateringModal = ref(false)
-  
+
   function toggleAddModal() {
     isShowAddModal.value = !isShowAddModal.value
   }
@@ -120,7 +118,6 @@
   function toggleFastWateringModal() {
     isShowFastWateringModal.value = !isShowFastWateringModal.value
   }
-
   const gotoDeviceConfig= (id) => {
     router.push({ name: 'DeviceConfig', params: { id: id }})
   }
@@ -129,13 +126,10 @@
     router.push({ name: 'AddDevice'})
   }
 
-  const isLoading = ref(false)
 
   //fetch data
   onBeforeMount( async () => {
-    isLoading.value = true
     await devicesStore.loadDevices()
-    isLoading.value = false 
   })
 
 </script>
