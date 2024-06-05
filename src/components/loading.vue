@@ -63,8 +63,8 @@ export default {
 }
 .appLoading__backdrop {
   @apply  
-        /* bg-[#FFFFFF]/40 backdrop-blur-[2px] */
-        bg-[#FFFFFF]
+        /* bg-[#ABADAF]/40 backdrop-blur-[2px] */
+        bg-[#ADCBF6]
           fixed top-0 bottom-0 left-0 right-0
           flex justify-center items-center 
 }
