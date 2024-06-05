@@ -3,7 +3,6 @@
     class="sidebar-icon group"
     :class="`${isExpand ? 'expanded' : ''}`">
     <span class="text">
-      wowowo
       {{menuText}}
     </span>
     <div class="icon">
