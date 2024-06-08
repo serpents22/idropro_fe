@@ -48,7 +48,28 @@
                     </th>
                 </tr>
             </thead>
-            <tr v-for="(tData, index) in rowsData" :key="index">
+            <tr v-if="rowsData.length == [] && !isLoading">
+                <td colspan="9" class="w-full">
+                    No Station
+                </td>
+            </tr>
+            <tr v-if="isLoading">
+                <td colspan="9" class="w-full">
+                    <div class="flex justify-center">
+                        <svg aria-hidden="true"
+                            class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                            viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                fill="currentColor" />
+                            <path
+                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                fill="currentFill" />
+                        </svg>
+                    </div>
+                </td>
+            </tr>
+            <tr v-if="!isLoading" v-for="(tData, index) in rowsData" :key="index">
 
                 <td name="Sposta" class="w-10">
                     <div class="mp-div">
@@ -131,12 +152,12 @@
                             {{ groupObj.group }}
                         </option>
                     </select>
-                    <button type="button" class="filled_green mp-button mlw-30" @click="addStep()">{{ $t('addGroup')
+                    <button :disabled="isLoading" type="button" class="filled_green mp-button mlw-30" @click="addStep()">{{ $t('addGroup')
                         }}</button>
                 </div>
             </div>
             <div class="button-wrapper no-margin">
-                <MyButton type="submit" class="filled" :label="$t('save')" :loading="postControlIsLoading" />
+                <MyButton type="submit" class="filled" :label="$t('save')" :loading="isLoading" />
             </div>
         </div>
     </form>
@@ -168,15 +189,19 @@ const props = defineProps({
     id: String,
     programNumber: Number,
     base_reg: Number,
-    device_code: String
+    device_code: String,
+    parentIsLoading: Boolean,
+    programConfig: Object
 })
 
 //state
 const dataStore = useDataStore()
 const { postControlIsLoading } = storeToRefs(useDataStore())
-
+const localIsLoading = ref(false)
 //refactoring evStation from S10200
 let startEvStation = computed(() => (props.programNumber * 1000) + 10200);
+
+const isLoading = computed(() => localIsLoading.value || props.parentIsLoading || postControlIsLoading.value)
 
 const evStationValue = computed(() => {
     return Object.keys(evStation).
@@ -218,12 +243,6 @@ const grConfigParams = ref({
     device_code: null
 })
 
-const satConfigParams = ref({
-    fields: 'S10000,S10001,S10004,S10006',
-    measurement: 'SATPRGCONFIG1',
-    device_code: null
-})
-
 const evStationParams = ref({
     fields: [...Array(196)].map((_, index) => `S${10100 + index}`).join(','), //MV imposta il settaggio per il singolo programma index va da 1 a 30
     measurement: 'SATPRGTIMES1',
@@ -231,19 +250,26 @@ const evStationParams = ref({
 })
 
 let evConfig = null
-let satConfig = null
 let evStation = null
+
+defineExpose({
+    refreshData
+})
 
 watch(() => props.device_code, async (newDeviceCode) => {
     setDeviceCode(newDeviceCode)
 })
 
-watch(() => [props.programNumber, props.base_reg], ([newProgNum, newBaseReg], _) => {
+watch(() => [props.programNumber, props.base_reg, props.programConfig], ([newProgNum, newBaseReg], _) => {
     onOptionChanged(newProgNum, newBaseReg)
 })
 
+function refreshData() {
+    const { programNumber, base_reg } = props;
+    onOptionChanged(programNumber, base_reg)
+}
+
 function setDeviceCode(deviceCode) {
-    satConfigParams.value.device_code = deviceCode
     evConfigParams.value.device_code = deviceCode
     evStationParams.value.device_code = deviceCode
     grConfigParams.value.device_code = deviceCode
@@ -266,9 +292,11 @@ function moveOnSelect(event, currentPos) {
 }
 
 function getProgramInfo(programNumber, base_reg) {
+    const { programConfig } = props;
+
     let programEnabledRegister = 'S' + (base_reg);
     let programNameRegister = "S" + (base_reg + 4);
-    let programEnabled = dataStore.satConfig === undefined ? '0' : dataStore.satConfig[programEnabledRegister]
+    let programEnabled = programConfig === undefined ? '0' : programConfig[programEnabledRegister]
 
     if (programEnabled == 0) {
         programEnabledString = "ON"
@@ -278,15 +306,19 @@ function getProgramInfo(programNumber, base_reg) {
 
     //MV leggo il nome del programma. 
     programName = "P." + String(programNumber + 1).padStart("2", '0');
-    if (dataStore.satConfig !== undefined) {
-        programName = dataStore.satConfig[programNameRegister]
+    if (programConfig !== undefined) {
+        programName = programConfig[programNameRegister]
     }
 
     workModeRegister = 'S' + (base_reg + 6);
     timeModeRegister = 'S' + (base_reg + 1);
 
-    timeMode = dataStore.satConfig === undefined ? '0' : dataStore.satConfig[timeModeRegister]
-    workMode = dataStore.satConfig === undefined ? '1' : dataStore.satConfig[workModeRegister]
+    timeMode = programConfig === undefined ? '0' : programConfig[timeModeRegister]
+    workMode = programConfig === undefined ? '1' : programConfig[workModeRegister]
+
+    console.log("satConfig", programConfig)
+    console.log("workModeRegister: ", workModeRegister, "timeModeRegister: ", timeModeRegister)
+    console.log("workMode: ", workMode, "timeMode: ", timeMode)
 
     if (workMode === '0') {//Lavora a volume
         evFlowMode = 0
@@ -353,7 +385,7 @@ function fillEvConfigData() {
                         let tmpMinSec = undefined;
 
                         if (evStation !== undefined) {
-                            tmpMinSec = evStation[timeRegister].split('.')
+                            tmpMinSec = evStation[timeRegister]?.split('.')
                         }
 
                         flowMode.min = 0;
@@ -372,7 +404,7 @@ function fillEvConfigData() {
                         let tmpOreMin = undefined;
 
                         if (evStation !== undefined) {
-                            tmpOreMin = evStation[timeRegister].split('.')
+                            tmpOreMin = evStation[timeRegister]?.split('.')
                         }
 
                         if (tmpOreMin === undefined) {
@@ -390,7 +422,7 @@ function fillEvConfigData() {
                 let tmpStatus = undefined;
 
                 if (evStation !== undefined) {
-                    tmpStatus = evStation[orderRegister].split(',')
+                    tmpStatus = evStation[orderRegister]?.split(',')
                 }
                 //////////////
 
@@ -442,9 +474,13 @@ function groupingTableData() {
 }
 
 onMounted(async () => {
+    localIsLoading.value = true
     setDeviceCode(props.device_code)
-    await dataStore.getLastGroupData(grConfigParams.value) //MV popolo le configurazioni dei gruppi
-    await onOptionChanged(props.programNumber, props.base_reg)
+
+    await Promise.all([
+        dataStore.getLastGroupData(grConfigParams.value),
+        onOptionChanged(props.programNumber, props.base_reg)
+    ])
 
     //Rimuovo i doppioni eventuali dalla lista di gruppi e stazioni
     var TmpEvGroups = [];
@@ -452,13 +488,12 @@ onMounted(async () => {
 
     evGroups = TmpEvGroups;
     TmpEvGroups = [];
+    localIsLoading.value = false
 })
 
 
 
 function swapStep(oldIndex, newIndex) {
-    console.log("Old Index: ", oldIndex, "New Index: ", newIndex, "MaxRows: ", maxRows);
-
     var newPosition = newIndex;
     var oldPosition = oldIndex;
 
@@ -492,7 +527,6 @@ function swapStep(oldIndex, newIndex) {
 }
 
 function moveStep(index, direction) {
-    console.log("Index: ", index, "Direction: ", direction, "MaxRows: ", maxRows);
     //Muovo sopra
     if (direction == 0 && index == 0) {
         //non fare nulla
@@ -580,7 +614,6 @@ function addStep() {
 
 function removeProgramStep(step) {
     if (lastStep < 0) return;
-    console.log("Rimuovi: ", step);
     //if (rowsData.value.length > 1 && (step>=0 && step<rowsData.value.length))
     //{
     swapGroups.splice(step, 1)
@@ -658,7 +691,7 @@ function getFlowValueByStep(step) {
             let tmpMinSec = undefined;
 
             if (evStationTime !== undefined) {
-                tmpMinSec = evStationTime.value[Object.keys(evStationTime.value)[step]].split('.')
+                tmpMinSec = evStationTime.value[Object.keys(evStationTime.value)[step]]?.split('.')
             }
 
             flowObject.min = 0;
@@ -679,7 +712,7 @@ function getFlowValueByStep(step) {
             let tmpOreMin = undefined;
 
             if (evStationTime !== undefined) {
-                tmpOreMin = evStationTime.value[Object.keys(evStationTime.value)[step]].split('.')
+                tmpOreMin = evStationTime.value[Object.keys(evStationTime.value)[step]]?.split('.')
             }
 
             if (tmpOreMin === undefined) {
@@ -720,7 +753,7 @@ function addRow(refresh = false) {
                 gruppiEv: getEvGroupsByStationId(stationId, Object.values(groupedTableData._rawValue)), //Restituisce i gruppi di elettrovalvole per stazione
                 stationID: stationId,
                 //selected_station: stationId, 
-                station_status: evStationValue.value[Object.keys(evStationValue.value)[step]].split(',')[1] * 1 ? 'ON' : 'OFF',
+                station_status: evStationValue.value[Object.keys(evStationValue.value)[step]]?.split(',')[1] * 1 ? 'ON' : 'OFF',
                 grpName: tmpGrpName,
                 volume: flowMode.volume,
                 ore: flowMode.ore,
@@ -741,28 +774,26 @@ function addRow(refresh = false) {
 
 //NB optionValue è il numero programma
 async function onOptionChanged(programNumber, base_reg) {
-    console.log('option changed', 'start from', startStationTime.value)
-
-    satConfigParams.value.fields = String(
-        'S' + ((programNumber * 1000) + 10000) + ',' +
-        'S' + ((programNumber * 1000) + 10001) + ',' +
-        'S' + ((programNumber * 1000) + 10004) + ',' +
-        'S' + ((programNumber * 1000) + 10006))
+    rowsData.value = []
+    localIsLoading.value = true
 
     evStationParams.value.fields = [...Array(196)].map((_, index) => `S${startStationTime.value + index}`).join(',');
-
-    satConfigParams.value.measurement = String('SATPRGCONFIG' + (programNumber + 1))
     evStationParams.value.measurement = String('SATPRGTIMES' + (programNumber + 1))
 
-    evConfig = (await dataAPI.getLast(evConfigParams.value)).data.data
-    satConfig = (await dataAPI.getLast(satConfigParams.value)).data.data
-    evStation = (await dataAPI.getLast(evStationParams.value)).data.data
-    console.log('evStation', evStation)
+    const promises = await Promise.all([
+        dataAPI.getLast(evConfigParams.value),
+        dataAPI.getLast(evStationParams.value)
+    ])
+
+    evConfig = promises[0]?.data?.data
+    evStation = promises[1]?.data?.data
 
     getProgramInfo(programNumber, base_reg)
     fillEvConfigData()
     groupingTableData()
     addRow(true)
+    localIsLoading.value = false
+
 }
 
 const postEvStationData = ref({

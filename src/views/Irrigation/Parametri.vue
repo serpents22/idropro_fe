@@ -31,7 +31,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+
+              <tr v-if="loadingData">
+                <td colspan="2" class="w-full">
+                  <div class="flex justify-center">
+                    <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                      viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor" />
+                      <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill" />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label for="nome">{{ $t('programName') }}</label>
                 </td>
@@ -43,7 +59,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('programMode') }}</label>
                 </td>
@@ -62,7 +78,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('minifertProgram') }}</label>
                 </td>
@@ -83,9 +99,9 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
-                  <label>{{$t('choiceOfTimeMode')}}</label>
+                  <label>{{ $t('choiceOfTimeMode') }}</label>
                 </td>
                 <td>
                   <span class="flex flex-col gap-1">
@@ -107,7 +123,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('cyclesOrTime') }}</label>
                 </td>
@@ -126,7 +142,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('delayBetweenStation') }}</label>
                 </td>
@@ -138,7 +154,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('delayBetweenCycles') }}</label>
                 </td>
@@ -150,7 +166,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('startMode') }}</label>
                 </td>
@@ -169,7 +185,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('biweeklyCalendar') }}</label>
                 </td>
@@ -196,7 +212,7 @@
                   </div>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('activeWeek') }}</label>
                 </td>
@@ -206,7 +222,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('skippedDays') }}</label>
                 </td>
@@ -216,7 +232,7 @@
                   </span>
                 </td>
               </tr>
-              <tr>
+              <tr v-if="!loadingData">
                 <td>
                   <label>{{ $t('daysBeforeStart') }}</label>
                 </td>
@@ -229,15 +245,33 @@
             </tbody>
           </table>
           <div class="button-wrapper">
-            <MyButton type="submit" class="filled" :label="$t('save')" :loading="postControlIsLoading" />
+            <MyButton type="submit" class="filled" :label="$t('save')" :loading="isLoading" />
           </div>
         </form>
 
-        <ScheduleStart v-if="deviceStore.deviceData.code" :device_code="deviceStore.deviceData.code"
-          :base_reg="base_reg" :programNumber="programNumber" :id="id" class="mt-10" />
+        <ScheduleStart 
+          v-if="deviceStore.deviceData.code" 
+          :device_code="deviceStore.deviceData.code"
+          :base_reg="base_reg" 
+          :programNumber="programNumber" 
+          :id="id" 
+          class="mt-10" 
+          :programConfig="dataStore.satConfig"
+          :programStart="programStart"
+          :parentIsLoading="loadingData"
+        />
 
-        <StationDuration v-if="deviceStore.deviceData.code" :device_code="deviceStore.deviceData.code"
-          :base_reg="base_reg" :programNumber="programNumber" :id="id" class="mt-10" />
+        <StationDuration
+          v-if="deviceStore.deviceData.code"
+          :device_code="deviceStore.deviceData.code"
+          :base_reg="base_reg"
+          :programNumber="programNumber"
+          :id="id"
+          class="mt-10"
+          ref="stationDurationRef" 
+          :parentIsLoading="loadingData"
+          :programConfig="dataStore.satConfig"
+        />
       </div>
     </div>
   </div>
@@ -252,6 +286,7 @@ import MyButton from '@/components/button/BaseButton.vue'
 import { useI18n } from 'vue-i18n'
 import ScheduleStart from '@/components/generalParameter/ScheduleStart.vue'
 import StationDuration from '@/components/generalParameter/StationDuration.vue'
+import dataAPI from '@/services/dataAPI'
 
 const { t } = useI18n()
 //props
@@ -267,7 +302,7 @@ const deviceCard = defineAsyncComponent(
 const deviceStore = useDevicesStore()
 const dataStore = useDataStore()
 const { postControlIsLoading } = storeToRefs(useDataStore())
-const { isLoading } = storeToRefs(useDevicesStore())
+const { isLoading: deviceIsLoading } = storeToRefs(useDevicesStore())
 const newData = computed(() => {
   return [deviceStore.deviceData]
 })
@@ -288,8 +323,14 @@ const satStatParams = ref({
   measurement: 'SATSTAT',
   device_code: null
 })
-const satData = ref({})
 
+const programStartParams = ref({
+  fields: 'S10050,S10051,S10052,S10053,S10054,S10055,S10056,S10057',
+  measurement: 'SATPRGSTARTS1',
+  device_code: null
+})
+
+let programStart = ref({})
 
 //----Definizione Globali----
 let programNumber = 0;
@@ -422,25 +463,39 @@ const postSatStatData = ref({
   payload: {}
 })
 
+const loadingData = ref(false)
+const stationDurationRef = ref(null)
+const isLoading = computed(() => loadingData.value || deviceIsLoading.value || postControlIsLoading.value)
 
 onMounted(async () => {
+  loadingData.value = true
+  
   await deviceStore.loadDevice(props.id)
+  
   satConfigParams.value.device_code = deviceStore.deviceData.code
   satStatParams.value.device_code = deviceStore.deviceData.code
+  programStartParams.value.device_code = deviceStore.deviceData.code
+  
   title.value = 'Idrosat:' + deviceStore.deviceData.name
-  await dataStore.getLastSatStat(satStatParams.value)
 
-  await dataStore.getLastSatConfig(satConfigParams.value)
+  await getData()
 
   for (var x = 0; x < 14; x++) {
     biWeekCalendar.push({ 'day': daysName[x], 'status': 0 })
   }
 
   fillSatData()
+  loadingData.value = false
 })
 
+function refreshStationDuration() {
+  if (stationDurationRef.value) {
+    console.log("refreshStationDuration")
+    stationDurationRef.value.refreshData()
+  }
+}
+
 function onSubmit() {
-  console.log(satData.value)
   postSatConData.value.payload = {}
 
   postSatConData.value.command = String('SATPRGCONFIG' + (programNumber + 1))
@@ -495,19 +550,34 @@ function onSubmit() {
   postSatConData.value.payload[miniFertRegister] = String(programData.value.miniFert)
   postSatConData.value.payload[remainingDaysRegister] = String(programData.value.remainingDays)
 
-  console.log(postSatConData.value.payload)
   dataStore.postControl(satConfigParams.value.device_code, postSatConData.value)
 
   postSatStatData.value.payload.S71 = String(programData.value.currentWeek)
-  console.log(postSatStatData.value.payload)
 
   dataStore.postControl(satStatParams.value.device_code, postSatStatData.value)
 
+  changeOption({
+    target: {
+      value: optionValue.value
+    }
+  })
 }
 
+async function getData() {
+  const promises = await Promise.all([
+    dataAPI.getLast(programStartParams.value), // programStart
+    dataStore.getLastSatConfig(satConfigParams.value),
+    dataStore.getLastSatStat(satStatParams.value),
+  ])
 
+  console.log("satConfig getData", dataStore.satConfig)
+
+  programStart.value = promises[0]?.data?.data
+}
 
 async function changeOption(e) {
+  loadingData.value = true
+
   optionValue.value = e.target.value
   programNumber = e.target.value - 1
 
@@ -515,6 +585,9 @@ async function changeOption(e) {
   dataStore.postControl(satStatParams.value.device_code, postSatConCommand.value)
 
   base_reg = (10000 + (programNumber * 1000))
+
+  satConfigParams.value.measurement = String('SATPRGCONFIG' + e.target.value)
+  programStartParams.value.measurement = String('SATPRGSTARTS' + e.target.value)
 
   satConfigParams.value.fields = String(
     'S' + base_reg + ',' +
@@ -529,14 +602,25 @@ async function changeOption(e) {
     'S' + (base_reg + 19) + ',' +
     'S' + (base_reg + 21) + ',')
 
-  satConfigParams.value.measurement = String('SATPRGCONFIG' + e.target.value)
-  await dataStore.getLastSatConfig(satConfigParams.value)
-  await dataStore.getLastSatStat(satStatParams.value)
+  programStartParams.value.fields = String(
+    'S' + (base_reg + 50) + ',' +
+    'S' + (base_reg + 51) + ',' +
+    'S' + (base_reg + 52) + ',' +
+    'S' + (base_reg + 53) + ',' +
+    'S' + (base_reg + 54) + ',' +
+    'S' + (base_reg + 55) + ',' +
+    'S' + (base_reg + 56) + ',' +
+    'S' + (base_reg + 57) + ','
+  )
+ 
+  await getData()
 
   fillSatData()
 
-}
+  // refreshStationDuration()
 
+  loadingData.value = false
+}
 
 let daysName = [t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday'), t('sunday'), t('monday'), t('tuesday'), t('wednesday'), t('thursday'), t('friday'), t('saturday'), t('sunday')]
 ///Inizializzo la matrice per il rendering
@@ -590,7 +674,7 @@ td {
 }
 
 .parametri-container {
-  @apply relative flex flex-col px-[16px] md:px-[200px] lg:px-[260px] xl:px-[320px] 2xl:px-[360px] h-[480px] sm:h-full overflow-x-scroll
+  @apply relative flex flex-col px-[16px] md:px-[200px] lg:px-[260px] xl:px-[320px] 2xl:px-[360px] h-[500px] sm:h-full overflow-x-scroll
 }
 
 .main {
@@ -603,7 +687,7 @@ td {
 
 
 .content {
-  @apply flex flex-col justify-center gap-2 w-full sm:gap-4 sm:my-[20px] 
+  @apply flex flex-col justify-center gap-2 w-full sm:gap-4 sm:my-[20px]
 }
 
 .header {

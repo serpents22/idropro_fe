@@ -60,10 +60,10 @@ export const useDataStore = defineStore('data', () => {
     } 
   }
 
-  const getLastMeteoStat = async (params) => {
+  const getLastMeteoStat = async (params, signal = null) => {
     isLoading.value = true
     try {
-      const res = await dataAPI.getLast(params)
+      const res = await dataAPI.getLast(params, signal)
       meteoStat.value = res.data.data
       isLoading.value = false
   } catch (err) {
@@ -73,10 +73,10 @@ export const useDataStore = defineStore('data', () => {
     } 
   }
 
-  const getLastSatStat = async (params) => {
+  const getLastSatStat = async (params, signal) => {
     satStatIsLoading.value = true
     try {
-      const res = await dataAPI.getLast(params)
+      const res = await dataAPI.getLast(params, signal)
       satStat.value = res.data.data
       satStatIsLoading.value = false
   } catch (err) {
@@ -232,10 +232,10 @@ export const useDataStore = defineStore('data', () => {
     } 
   }
 
-  const getHistoricalData = async (params) => {
+  const getHistoricalData = async (params, signal = null) => {
     historicalDataIsLoading.value = true
     try {
-      const res = await dataAPI.getHistory(params)
+      const res = await dataAPI.getHistory(params, signal)
       historicalData.value = res.data.data
       historicalDataLength.value = res.data.data === undefined ? 0 : Object.keys(res.data.data).length - 6
       historicalDataIsLoading.value = false
