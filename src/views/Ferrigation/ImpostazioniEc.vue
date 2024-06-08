@@ -90,9 +90,8 @@
                 </td>
                 <td>
                   <span class="flex gap-2 items-center">
-                    <input :disabled="fertData.F02 === undefined" 
+                    <input :disabled="fertData.F02 === undefined" step="0.01"
                       v-model="fertData.F02" type="number" name="setPointPh">
-                    <p>Sec</p>
                   </span>
                 </td>
               </tr>

@@ -66,13 +66,13 @@
                 <div class="field-wrapper">
                   <div class="field">
                     <span>
-                      <label for="umidita-bassa">{{ $t('low') }} <sup>o</sup>C</label>
+                      <label for="umidita-bassa">{{ $t('low') }} %</label>
                     </span>
                     <input v-model="umiditaBassa" type="number" id="umidita-bassa" disabled>
                   </div>
                   <div class="field">
                     <span>
-                      <label for="umidita-bassa">{{ $t('high') }} <sup>o</sup>C</label>
+                      <label for="umidita-bassa">{{ $t('high') }} %</label>
                     </span>
                     <input v-model="umiditaAlta" type="number" id="umidita-bassa" disabled>
                   </div>
@@ -118,7 +118,7 @@
                 <div class="field-wrapper">
                   <div class="field">
                     <span>
-                      <label for="water-budget">{{ $t('low') }} <sup>o</sup>C</label>
+                      <label for="water-budget">%</label>
                     </span>
                     <input 
                       v-model="satData.S7" 
@@ -579,7 +579,7 @@
     const umiditaMax = 100
     const waterBudget = ref(20)
     const waterBudgetMin = 0
-    const waterBudgetMax = 100
+    const waterBudgetMax = 250
     const optionValue = ref(1)
   
     function fillSatData() {
@@ -740,7 +740,7 @@
       { title: t('soilSensor') + ' 26', value: '26'}, { title: t('soilSensor') + ' 27', value: '27'}, { title: t('soilSensor') + ' 28', value: '28'}, { title: t('soilSensor') + ' 29', value: '29'}, { title: t('soilSensor') + ' 30', value: '30'},
     ]
     const livellosensoraUmiditaOptions = [
-    { title: '0', value: '0'},{ title: '1', value: '1'}, { title: '2', value: '2'}, { title: '3', value: '3'}, { title: '4', value: '4'}
+     { title: '1', value: '1'}, { title: '2', value: '2'}, { title: '3', value: '3'}, { title: '4', value: '4'}
     ]
   
     // const impulsiPortarte = ref()

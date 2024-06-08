@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <img src="@/assets/logo.png" id="logo" class="mb-4 sm:mb-20">
+    <img src="@/assets/logo.png" id="logo" class="mb-4 sm:mb-10">
     <span>
       <h1 class="title">{{title}} {{ name }}</h1>
       <slot></slot>

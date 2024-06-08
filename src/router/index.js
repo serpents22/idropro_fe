@@ -30,6 +30,7 @@ import StatoStazione from '@/views/Irrigation/StatoStazione.vue'
 import StatoIdrosat from '@/views/Irrigation/StatoIdrosat.vue'
 import DurataStazione from '@/views/Irrigation/DurataStazione.vue'
 import GestisciSensori from '@/views/Irrigation/GestisciSensori.vue'
+import EVConfiguration from '@/views/Irrigation/EVConfiguration.vue'
 
 import AddDevice from '@/views/AddDevice.vue'
 import FerrigationView from '@/views/Ferrigation/FerrigationView.vue'
@@ -49,6 +50,7 @@ import ReportEventi from '@/views/Report/EventiProgrammi.vue'
 import Planning from '@/views/Report/Planning.vue'
 import ReportRilevazioni from '@/views/Report/RilevazioniEventi.vue'
 import ReportUmidita from '@/views/Report/SensoriUmiditaEventi.vue'
+import EvReport from '@/views/Report/EvReport.vue'
 import MapView from '@/views/Map/MapGoogle.vue'
 import Webcam from '@/views/Webcam/Webcam.vue'
 
@@ -74,6 +76,7 @@ const routes = [
   { path: '/:lang/dashboard/device-detail/:id/report/alarm', name: 'ReportAlarm', component: ReportAlarm, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/report/eventi-programmi', name: 'ReportEventi', component: ReportEventi, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/report/rilevzioni-eventi', name: 'ReportRilevazioni', component: ReportRilevazioni, props: true, meta: { requiresAuth:true } },
+  { path: '/:lang/dashboard/device-detail/:id/report/ev-report', name: 'EvReport', component: EvReport, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/report/sensori-umidita', name: 'ReportUmidita', component: ReportUmidita, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/report/planning', name: 'Planning', component: Planning, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation', name: 'IrrigationView', component: IrrigationView, props: true, meta: { requiresAuth:true } },
@@ -81,6 +84,7 @@ const routes = [
   { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/flussi', name: 'Flussi', component: Flussi, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/orario', name: 'Orario', component: Orario, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/generali', name: 'Generali', component: Generali, props: true, meta: { requiresAuth:true } },
+  { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/evconfig', name: 'EVConfiguration', component: EVConfiguration, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/avanzata', name: 'Avanzata', component: Avanzata, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation/configuration/stazioni', name: 'Stazioni', component: Stazioni, props: true, meta: { requiresAuth:true } },
   { path: '/:lang/dashboard/device-detail/:id/irrigation/schedule', name: 'IrrigationSchedule', component: IrrigationSchedule, props: true, meta: { requiresAuth:true } },

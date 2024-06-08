@@ -261,85 +261,85 @@ const {t} = useI18n()
   function describeErrorCode(value) {
     switch (value) {
             case '0':
-              value = 'No Alarm'
+              value = t('noAlarm')
               break;
             case '1':
-              value = 'Short cicruit'
+              value = t('shortCircuit')
               break;
             case '2':
-              value = 'First Entrance'
+              value = t('firstEntry')
               break;
             case '3':
-              value = 'Second entrance'
+              value = t('secondEntrance')
               break;
             case '4':
-              value = 'Wind'
+              value = t('wind')
               break;
             case '5':
-              value = 'Water leak'
+              value = t('lossOfWater')
               break;
             case '6':
-              value = 'High temperature'
+              value = t('highTemperature')
               break;
             case '7':
-              value = 'Low temperature'
+              value = t('lowTemperature')
               break;
             case '8':
-              value = 'High humidity'
+              value = t('highHumidity')
               break;
             case '9':
-              value = 'Low humidity'
+              value = t('lowHumidity')
               break;
             case '10':
-              value = 'High brightness'
+              value = t('highBrightness')
               break;
             case '11':
-              value = 'Excessive flow'
+              value = t('excessiveFlow')
               break;
             case '12':
-              value = 'Open / closed input (on EV via radio)'
+              value = t('openCloseInput')
               break;
             case '13':
-              value = 'Excessive flow on Minifert'
+              value = t('excessiveFlowOnMinifert')
               break;
             case '14':
-              value = 'Minifert'
+              value = t('minifert')
               break;
             case '15':
-              value = 'The program (or the station) cannot start'
+              value = t('theProgramCannotStart')
               break;
             case '16':
-              value = 'Lack of network'
+              value = t('noNetwork')
               break;
             case '17':
-              value = 'Low battery'
+              value = t('lowBattery')
               break;
             case '18':
-              value = 'Low fertilizer level on minifert'
+              value = t('lowFertilizerMinifert')
               break;
             case '19':
-              value = 'Circuit paerto (on ICOD)'
+              value = t('openCircuit')
               break;
             case '20':
-              value = 'Third entrance'
+              value = t('thirdEntry') 
               break;
             case '21':
-              value = 'Fourth entrance'
+              value = t('fourthEntrance')
               break;
             case '22':
-              value = 'Low pressure'
+              value = t('lowPressure')
               break;
             case '23':
-              value = 'High pressure'
+              value = t('highPressure')
               break;
             case '24':
-              value = 'No EV connection via radio'
+              value = t('noEvRadioConnection')
               break;
             case '25':
-              value = 'No repeater connection'
+              value = t('noRepeaterConnection')
               break;
             case '26':
-              value = 'Emergency button'
+              value = t('emergencyKey')
               break;
             default:
               break;

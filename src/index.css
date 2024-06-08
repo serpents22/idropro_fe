@@ -4,103 +4,143 @@
 
 @layer my-custom-styles {
 
-      .custom-mobile{
-        display:initial;
-      }
+  .custom-mobile {
+    display: initial;
+  }
 
-      .device-container img {
-        width: unset !important;
-      }
-      
-      @media (min-width: 390px) and (max-width: 992px) {
-        .mlw-30{
-          width: initial !important;
-          padding: 0.5rem !important;
-        }
+  .device-container img {
+    width: unset !important;
+  }
 
-        .search-bar {
-          width: 100% !important;
-        }
-        .w-30{
-           width: 50% !important;
-        }
+  @media (min-width: 390px) and (max-width: 992px) {
+    .mlw-30 {
+      width: initial !important;
+      padding: 0.5rem !important;
+    }
 
-        /* .label-bar{
+    .search-bar {
+      width: 100% !important;
+    }
+
+    .w-30 {
+      width: 50% !important;
+    }
+
+    /* .label-bar{
           width:70% !important;
         } */
 
-        .table-container th,
-        .table-container td {
-          font-size: .2rem !important;
-        }
-      }
+    .table-container th,
+    .table-container td {
+      font-size: .2rem !important;
+    }
+  }
 
-      @media (max-width: 992px) {
-       .custom-mobile{
-          display:none ;
-        }
+  @media (max-width: 992px) {
+    .custom-mobile {
+      display: none;
+    }
 
-        .dashboard-container .custom-mobile{
-          display:block !important ;
-        }
+    .dashboard-container .custom-mobile {
+      display: block !important;
+    }
 
-        .table-container th,
-        .table-container td {
-          font-size: .4rem !important;
-        }
-      }
+    .table-container th,
+    .table-container td {
+      font-size: .4rem !important;
+    }
+  }
 
-      @media (max-width: 1180px) {
-        .custom-mobile{
-           display:none ;
-        }
- 
-        .dashboard-container .custom-mobile{
-           display:block !important ;
-        }
+  @media (max-width: 1180px) {
+    .custom-mobile {
+      display: none;
+    }
+
+    .dashboard-container .custom-mobile {
+      display: block !important;
+    }
 
 
-        /* .durata-container {
+    /* .durata-container {
           padding-left: 4rem !important; 
           padding-right: 4rem !important;
         } */
 
-        .mlw-30{
-          width: initial !important;
-          padding: 0.5rem !important;
-        }
+    .mlw-30 {
+      width: initial !important;
+      padding: 0.5rem !important;
+    }
 
-        .table-container th,
-        .table-container td {
-          font-size: .9rem !important;
-        }
-      }
+    .table-container th,
+    .table-container td {
+      font-size: .9rem !important;
+    }
+  }
 
-      @media (max-width: 1024px) {
-        .custom-mobile{
-           display:none ;
-        }
- 
-        .dashboard-container .custom-mobile{
-           display:block !important ;
-        }
- 
-/* 
+  @media (max-width: 1024px) {
+    .custom-mobile {
+      display: none;
+    }
+
+    .dashboard-container .custom-mobile {
+      display: block !important;
+    }
+
+    /* 
         .durata-container {
           padding-left: 4rem !important; 
           padding-right: 4rem !important;
         } */
 
-        .mlw-30{
-          width: initial !important;
-          padding: 0.5rem !important;
-        }
+    .mlw-30 {
+      width: initial !important;
+      padding: 0.5rem !important;
+    }
 
-        .table-container th,
-        .table-container td {
-          font-size: .9rem !important;
-        }
-      }
+    .table-container th,
+    .table-container td {
+      font-size: .9rem !important;
+    }
   }
+}
+
+.menu-image {
+  background-image: url('@/assets/Accedi.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  @apply w-64 h-64;
+}
+
+.logo-container {
+  background-image: url('@/assets/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 200px;
+  height: 100px;
+}
+
+.logo-101 {
+  background-image: url('@/assets/101logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+}
+
+.plants-logo {
+  background-image: url('@/assets/impianto.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+.manage-account-logo {
+  background-image: url('@/assets/account.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');

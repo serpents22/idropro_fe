@@ -30,6 +30,10 @@
           <router-link :to="{name: 'Generali'}"><img src="@/assets/impostazioni_generali.png"></router-link>
           <p>{{ $t('generalSetting') }}</p>
         </div>
+        <div class="sm-icon-card">
+          <router-link :to="{name: 'EVConfiguration'}"><img src="@/assets/config_ev.png"></router-link>
+          <p>{{ $t('evConfiguration') }}</p>
+        </div>
       </div>
       <div class="row">
         <div class="sm-icon-card">
