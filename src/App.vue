@@ -15,7 +15,7 @@ export default {
         this.localStore.setLocale(lang)
         this.$i18n.locale = lang
       }
-			document.title = to.meta.title || 'IdroPro'
+			document.title = to.meta.title || 'Idropro'
 		}
 	},
   setup() {
